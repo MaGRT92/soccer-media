@@ -19,6 +19,15 @@ Route::get('/post/{post}', 'PostController@show')->name('post.show');
 Auth::routes();
 
 Route::group([
+    'middleware' => 'auth',
+        ], function()
+{
+    Route::post('/post/{post}/comment', 'CommentsController@store')->name('comments.store');
+}
+);
+
+
+Route::group([
     'middleware' => 'roles',
     'namespace' => 'Admin',
     'prefix' => 'admin',
@@ -26,7 +35,7 @@ Route::group([
         ], function()
 {
     Route::get('/dashboard', 'AdminController@index')->name('admin.index');
-    
+
     Route::get('/post', 'AdminPostController@index')->name('admin_post.index');
     Route::get('/post/create', 'AdminPostController@create')->name('admin_post.create');
     Route::get('/post/{post}', 'AdminPostController@show')->name('admin_post.show');

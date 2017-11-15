@@ -51,7 +51,11 @@ class AdminPostController extends Controller
 
     public function show(Post $post)
     {
-        return view('admin_post.show', compact('post'));
+        $post_img = 'images/no_image.png';
+        if(trim($post->post_img) !== '') {
+            $post_img = 'uploads/' . $post->post_img;
+        }
+        return view('admin_post.show', compact('post', 'post_img'));
     }
 
     public function edit(Post $post)

@@ -18,10 +18,14 @@
         </div>
         <div class="w3-container w3-padding w3-border-bottom">
           
-            <span class="w3-small">{{ $post->created_at->diffForHumans() . ' by '}}</span>
+            <span class="w3-small">{{ $post->created_at->diffForHumans() . ' by ' . $post->user->name }}</span>
             </div>
     </div>
 </div>
 @endforeach
+
+<div class="w3-margin-top w3-center">
+{{ $posts->links('pagination.default') }}
+</div>
 
 @endsection
