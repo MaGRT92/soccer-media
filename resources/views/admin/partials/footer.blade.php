@@ -34,6 +34,23 @@
         delete_form_number = $(this).data('delete-form-number');
         $('#modal_delete_post_confirm').show();
     });
+    
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#post_img_preview').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#post_img").change(function(){
+    readURL(this);
+});
+    
 // Get the Sidebar
     var mySidebar = $("#mySidebar");
 // Get the DIV with overlay effect

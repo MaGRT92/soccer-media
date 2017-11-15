@@ -17,15 +17,7 @@
         <button class="w3-btn w3-blue-grey w3-margin-top w3-right">Save Changes</button>
     </form>
 
-    @if (count($errors))
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    @include('admin.partials.error')
 </div>
 <a href="{{ route('admin_post.index') }}" class="w3-btn w3-blue-grey w3-margin-top"><i class="fa fa-long-arrow-left"></i> Back to Posts</a>
 @endsection

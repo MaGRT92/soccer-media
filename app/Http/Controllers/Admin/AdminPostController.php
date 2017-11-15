@@ -22,15 +22,21 @@ class AdminPostController extends Controller
 
     public function store()
     {
-
         $this->validate(request(), [
             'title' => 'required',
             'body' => 'required',
+            'post_img' => 'required',
         ]);
 
         Post::create(request(['title', 'body']));
-        
+
         session()->flash('success', 'Successfully added post');
+
+        $file = request()->file('post_img');
+        if ($file !== null)
+        {
+            $file->move('uploads', $file->getClientOriginalName());
+        }
 
         return redirect()->route('admin_post.index');
     }
@@ -55,13 +61,14 @@ class AdminPostController extends Controller
         $post->title = request('title');
         $post->body = request('body');
         $post->update();
-        
+
         session()->flash('success', 'Successfully edited post');
 
         return redirect()->route('admin_post.index');
     }
-    
-    public function destroy(Post $post) {
+
+    public function destroy(Post $post)
+    {
         $post->delete();
         session()->flash('success', 'Successfully deleted post ' . $post->title);
 
