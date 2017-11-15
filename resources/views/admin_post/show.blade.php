@@ -3,6 +3,8 @@
 @section('content')
 
     <h2>{{ $post->title}}</h2>
+    
+    <img src="{{ asset('uploads') . '/' . $post->post_img }}" height="300px" width="100%" />
 
     <p>{{ $post->body }}</p>
 

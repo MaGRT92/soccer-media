@@ -14,16 +14,18 @@
 Route::get('/', 'PostController@index');
 
 Route::get('/home', 'PostController@index')->name('home');
+Route::get('/post/{post}', 'PostController@show')->name('post.show');
 
 Auth::routes();
 
 Route::group([
     'middleware' => 'roles',
     'namespace' => 'Admin',
+    'prefix' => 'admin',
     'roles' => ['Admin']
         ], function()
 {
-    Route::get('/admin', 'AdminController@index')->name('admin.index');
+    Route::get('/dashboard', 'AdminController@index')->name('admin.index');
     
     Route::get('/post', 'AdminPostController@index')->name('admin_post.index');
     Route::get('/post/create', 'AdminPostController@create')->name('admin_post.create');

@@ -1,5 +1,9 @@
+<div class="w3-green w3-padding-12 w3-center w3-margin-top">
+    &copy; 2017 MaGRT
+</div>
 
-<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button> 
+
+<button onclick="topFunction()" id="myBtn" class="w3-green" title="Go to top">Top</button> 
 
 <script>
     function myFunction() {

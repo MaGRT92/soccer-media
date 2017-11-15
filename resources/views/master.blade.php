@@ -10,23 +10,24 @@
 
             @include('partials.header')
 
-            <div id="master_title" class="w3-container">
-                <h1 class="w3-text-green w3-border-bottom w3-border-green">@yield('main_title')</h1>
-            </div>
-
             <div id="all-content" class="w3-container">
                 <div class="w3-row">
-                    <div class="w3-col s12">
+                    <div class="w3-col m9 w3-padding-right">
+                        <div id="master_title" class="w3-container">
+                            <h1 class="w3-border-bottom w3-border-green">@yield('main_title')</h1>
+                        </div>
 
                         @yield('content')
+
                     </div>
 
+                    <div class="w3-col m3">
+                        Sidebar
+                    </div>
                 </div>
             </div>
-
+             @include('partials.footer')
+            
         </div>
-
-        @include('partials.footer')
-
     </body>
 </html>

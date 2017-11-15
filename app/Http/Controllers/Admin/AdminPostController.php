@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPostController extends Controller
 {
@@ -25,14 +26,21 @@ class AdminPostController extends Controller
         $this->validate(request(), [
             'title' => 'required',
             'body' => 'required',
-            'post_img' => 'required',
         ]);
+        
+        $file = request()->file('post_img');
+        $post_img = isset($file) ? $file->getClientOriginalName() : '';
 
-        Post::create(request(['title', 'body']));
+        Post::create([
+                'title' => request('title'),
+                'body' => request('body'),
+                'post_img' => $post_img,
+                'user_id' => Auth::user()->id,
+            ]);
 
         session()->flash('success', 'Successfully added post');
 
-        $file = request()->file('post_img');
+
         if ($file !== null)
         {
             $file->move('uploads', $file->getClientOriginalName());
@@ -48,7 +56,11 @@ class AdminPostController extends Controller
 
     public function edit(Post $post)
     {
-        return view('admin_post.edit', compact('post'));
+        $post_img = 'images/no_image.png';
+        if(trim($post->post_img) !== '') {
+            $post_img = 'uploads/' . $post->post_img;
+        }
+        return view('admin_post.edit', compact('post', 'post_img'));
     }
 
     public function update(Post $post)
@@ -57,7 +69,11 @@ class AdminPostController extends Controller
             'title' => 'required',
             'body' => 'required',
         ]);
-
+        $file = request()->file('post_img');
+        if($file !== null) {
+            $post->post_img = $file->getClientOriginalName();
+            $file->move('uploads', $file->getClientOriginalName());
+        }
         $post->title = request('title');
         $post->body = request('body');
         $post->update();
