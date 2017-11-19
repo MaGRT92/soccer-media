@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Post;
+use App\Tag;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap any application services.
      *
@@ -13,7 +16,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('partials.sidebar', function($view)
+        {
+            $view->with([
+                'archives' => Post::archives(),
+                'tags' => Tag::has('posts')->pluck('name')
+                    ]);
+        }
+        );
     }
 
     /**
@@ -25,4 +35,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
 }

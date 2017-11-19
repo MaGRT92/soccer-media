@@ -1,4 +1,4 @@
-@if (count($errors))
+@if ($errors->any())
 <div>
     <ul>
         @foreach ($errors->all() as $error)

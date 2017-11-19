@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 
+
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::latest()->paginate(2);
+        $posts = Post::latest()->filter(request(['month', 'year']))->paginate(2);
         return view('post.index', compact('posts'));
     }
     

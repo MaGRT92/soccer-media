@@ -28,8 +28,11 @@ class AdminPostController extends Controller
             'body' => 'required',
         ]);
         
-        $file = request()->file('post_img');
-        $post_img = isset($file) ? $file->getClientOriginalName() : '';
+        $post_img = '';
+        
+        if(request()->hasFile('post_img') && request()->file('post_img')->isValid()) {
+            $post_img = request()->file('post_img')->getClientOriginalName();
+        }
 
         Post::create([
                 'title' => request('title'),
@@ -41,9 +44,9 @@ class AdminPostController extends Controller
         session()->flash('success', 'Successfully added post');
 
 
-        if ($file !== null)
+        if ($post_img !== '')
         {
-            $file->move('uploads', $file->getClientOriginalName());
+            request()->file('post_img')->move('uploads', $post_img);
         }
 
         return redirect()->route('admin_post.index');
@@ -74,7 +77,7 @@ class AdminPostController extends Controller
             'body' => 'required',
         ]);
         $file = request()->file('post_img');
-        if($file !== null) {
+        if($file !== null && $file->isValid()) {
             $post->post_img = $file->getClientOriginalName();
             $file->move('uploads', $file->getClientOriginalName());
         }

@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="w3-col m3">
-                        Sidebar
+                        @include('partials.sidebar')
                     </div>
                 </div>
             </div>

@@ -1,13 +1,13 @@
 #all-content {
-    margin-top: 0;
+    margin-top: 20px;
 }
 
 .w3-button:hover {
     background-color: #4CAF50 !important;
 }
 
-#master_title {
-    margin-top: 20px;
+#archive_list {
+    margin-top: 100px;
 }
 
 #myBtn {
