@@ -37,10 +37,32 @@
                 </div>
             </div>
 
+            <button id="btn_show_tags_modal" class="w3-button w3-black">Open Modal</button>
+
+            <div id="tags_modal" class="w3-modal">
+                <div class="w3-modal-content w3-animate-right">
+                    <header class="w3-container w3-teal"> 
+                        <span onclick="document.getElementById('tags_modal').style.display = 'none'" 
+                              class="w3-button w3-display-topright">&times;</span>
+                        <h2>Modal Header</h2>
+                    </header>
+                    <div class="w3-container">
+                        <p>Some text..</p>
+                        <p>Some text..</p>
+                    </div>
+                    <footer class="w3-container w3-teal">
+                        <p>Modal Footer</p>
+                    </footer>
+                </div>
+            </div>
+
         </div>
 
     </div>
 
 </div>
 <a href="{{ route('admin_post.index') }}" class="w3-btn w3-blue-grey w3-margin-top"><i class="fa fa-long-arrow-left"></i> Back to Posts</a>
+
+
+
 @endsection

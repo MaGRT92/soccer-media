@@ -17,4 +17,9 @@ class PostController extends Controller
         return view('post.show', compact('post'));
     }
     
+     public function indexTag(Tag $tag) {
+        $posts = $tag->posts()->latest()->paginate(2);
+        return view('post.index', compact('posts'));
+    }
+    
 }

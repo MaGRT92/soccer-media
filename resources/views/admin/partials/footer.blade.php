@@ -72,3 +72,23 @@ $("#post_img").change(function(){
         overlayBg.hide();
     }
 </script>
+
+<script>
+    var btn_show_tags_modal = $('#btn_show_tags_modal');
+    btn_show_tags_modal.off('click');
+    btn_show_tags_modal.on('click', function(e) {
+        e.preventDefault();
+        getMessage();
+        $('#tags_modal').show();
+    });
+    function getMessage() {
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('tag.index')}}',
+            data: '_token=<?php echo csrf_token() ?>',
+            success: function (data) {
+                console.debug(data);
+            }
+        });
+    }
+</script>

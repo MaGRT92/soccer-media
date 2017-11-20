@@ -15,7 +15,8 @@ Route::get('/', 'PostController@index');
 
 Route::get('/home', 'PostController@index')->name('home');
 Route::get('/posts/{post}', 'PostController@show')->name('post.show');
-Route::get('/posts/tags/{tag}', 'TagController@index')->name('tag.index');
+Route::get('/posts/tags/{tag}', 'PostController@indexTag')->name('post.index_tag');
+
 
 Auth::routes();
 
@@ -44,5 +45,7 @@ Route::group([
     Route::post('/post', 'AdminPostController@store')->name('admin_post.store');
     Route::patch('/post/{post}', 'AdminPostController@update')->name('admin_post.update');
     Route::delete('/post/{post}', 'AdminPostController@destroy')->name('admin_post.destroy');
+    
+    Route::get('/tags', 'TagController@index')->name('tag.index');
 }
 );
