@@ -17,6 +17,7 @@
                 <textarea class="w3-input w3-border w3-light-grey" name="body" rows="10">{{ $post->body }}</textarea>
 
                  <input type="file" name="post_img" id="post_img" style="display: none" />
+                 <input type="hidden" name="post_tags" id="post_tags" />
                  
                 <button class="w3-btn w3-blue-grey w3-margin-top w3-right">Save Changes</button>
             </form>
@@ -38,8 +39,9 @@
                     <label for="post_img" class="w3-btn w3-blue-grey" >Change Image</label>
                 </div>
             </div>
-
         </div>
+        
+        @include('admin_post.create_edit_sidebar', compact('choosed_tags_list', 'tags_list'))
 
     </div>
 </div>

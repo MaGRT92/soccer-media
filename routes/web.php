@@ -47,5 +47,6 @@ Route::group([
     Route::delete('/post/{post}', 'AdminPostController@destroy')->name('admin_post.destroy');
     
     Route::get('/tags', 'AdminTagController@index')->name('admin_tag.index');
+    Route::post('/tags', 'AdminTagController@store')->name('admin_tag.store');
 }
 );

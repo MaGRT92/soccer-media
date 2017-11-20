@@ -42,12 +42,9 @@ class AdminPostController extends Controller
                     'post_img' => $post_img,
                     'user_id' => Auth::user()->id,
         ]);
-        $post_tags = explode(',', request('post_tags'));
-        
-        foreach ($post_tags as $t)
-        {
-            $post->tags()->attach($t);
-        }
+        $post_tags_ids = explode(',', request('post_tags'));
+
+        $post->tags()->attach($post_tags_ids);
 
         session()->flash('success', 'Successfully added post');
 
@@ -72,12 +69,15 @@ class AdminPostController extends Controller
 
     public function edit(Post $post)
     {
+        $tags_list = Post::getTagsList($post->tags()->pluck('id')->toArray());
+        $choosed_tags_list = $post->getChoosedTags();
+
         $post_img = 'images/no_image.png';
         if (trim($post->post_img) !== '')
         {
             $post_img = 'uploads/' . $post->post_img;
         }
-        return view('admin_post.edit', compact('post', 'post_img'));
+        return view('admin_post.edit', compact('post', 'post_img', 'choosed_tags_list', 'tags_list'));
     }
 
     public function update(Post $post)
@@ -92,10 +92,22 @@ class AdminPostController extends Controller
             $post->post_img = $file->getClientOriginalName();
             $file->move('uploads', $file->getClientOriginalName());
         }
+        $post_tags_ids = null;
+        
+        if (request('post_tags') !== null)
+        {
+            $post_tags_ids = explode(',', request('post_tags'));
+        }
         $post->title = request('title');
         $post->body = request('body');
         $post->update();
-
+        if (is_array($post_tags_ids))
+        {
+            $post->tags()->sync($post_tags_ids);
+        } else
+        {
+            $post->tags()->detach();
+        }
         session()->flash('success', 'Successfully edited post');
 
         return redirect()->route('admin_post.index');

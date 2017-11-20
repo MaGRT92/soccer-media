@@ -12,4 +12,16 @@ class AdminTagController extends Controller
         $tags = Tag::all();
         return response()->json(['tags' => $tags]);
     }
+    
+    public function store() {
+        $this->validate(request(), [
+           'tag_name' => 'required' 
+        ]);
+        
+        Tag::create([
+            'name' => request('tag_name')
+        ]);
+        
+        return back();
+    }
 }

@@ -34,23 +34,23 @@
         delete_form_number = $(this).data('delete-form-number');
         $('#modal_delete_post_confirm').show();
     });
-    
+
     function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#post_img_preview').attr('src', e.target.result);
-        };
+            reader.onload = function (e) {
+                $('#post_img_preview').attr('src', e.target.result);
+            };
 
-        reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[0]);
+        }
     }
-}
 
-$("#post_img").change(function(){
-    readURL(this);
-});
-    
+    $("#post_img").change(function () {
+        readURL(this);
+    });
+
 // Get the Sidebar
     var mySidebar = $("#mySidebar");
 // Get the DIV with overlay effect
@@ -76,43 +76,35 @@ $("#post_img").change(function(){
 <script>
     var btn_show_tags_modal = $('#btn_show_tags_modal');
     btn_show_tags_modal.off('click');
-    btn_show_tags_modal.on('click', function(e) {
+    btn_show_tags_modal.on('click', function (e) {
         e.preventDefault();
-       // getAllTags();
         $('#tags_modal').show();
     });
-    function getAllTags() {
-        $.ajax({
-            type: 'GET',
-            url: '{{ route('admin_tag.index')}}',
-            data: '_token=<?php echo csrf_token() ?>',
-            success: function (response) {
-                var number_of_tags = response.tags.length;
-                if(number_of_tags > 0 ) {
-                    var admin_tags_list = $('#admin_tags_list');
-                    admin_tags_list.html('');
-                    for(i = 0; i < number_of_tags; i++) {
-                        var html = '<li class="w3-padding-small"><input class="w3-check post_tag" type="checkbox" value="'+ response.tags[i].id + '">';
-                        html += '<label>' + response.tags[i].name + '</label></li>';
-                        admin_tags_list.append(html);
-                }
-            }
-            }
-        });
-    
-    }
-    
+
     var btn_add_tags_to_form = $('#btn_add_tags_to_form');
     btn_add_tags_to_form.off('click');
-    btn_add_tags_to_form.on('click', function(e) {
+    btn_add_tags_to_form.on('click', function (e) {
         var choosed_tags = [];
-        $('.post_tag').each(function() {
-            if($(this).is(':checked')) {
+        $('.post_tag').each(function () {
+            if ($(this).is(':checked')) {
                 choosed_tags.push($(this).val());
             }
         }
-            );
-    $('#post_tags').val(choosed_tags.toString());
-    $('#tags_modal').hide();
+        );
+        $('#post_tags').val(choosed_tags.toString());
+        var choosed_tags_names = [];
+        for (j = 0; j < choosed_tags.length; j++) {
+            choosed_tags_names.push($('#choosed_tag_lbl_' + choosed_tags[j]).html());
+        }
+        var choosed_tags_list = $('#choosed_tags_list');
+        choosed_tags_list.html('');
+        for (k = 0; k < choosed_tags_names.length; k++) {
+            var html = '<div class="w3-col m4 w3-padding w3-center">';
+            html += '<div class="w3-tag w3-round w3-teal" style="padding:3px">';
+            html += '<div class="w3-tag w3-round w3-teal w3-border w3-border-white">';
+            html += choosed_tags_names[k] + '</div></div></div>';
+            choosed_tags_list.append(html);
+        }
+        $('#tags_modal').hide();
     });
 </script>
