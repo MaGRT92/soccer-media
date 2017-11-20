@@ -51,5 +51,15 @@ class Post extends Model
     public function tags() {
         return $this->belongsToMany(Tag::class);
     }
+    
+    public static function getTagsList() {
+        $tags = Tag::all();
+        $html = '';
+        foreach ($tags as $tag) {
+            $html .= '<li class="w3-padding-small"><input class="w3-check post_tag" type="checkbox" value="' . $tag->id  . '">';
+            $html .= '<label>' . $tag->name . '</label></li>';
+        }
+        return $html;
+    }
 
 }

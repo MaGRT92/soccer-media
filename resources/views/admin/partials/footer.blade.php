@@ -78,17 +78,41 @@ $("#post_img").change(function(){
     btn_show_tags_modal.off('click');
     btn_show_tags_modal.on('click', function(e) {
         e.preventDefault();
-        getMessage();
+       // getAllTags();
         $('#tags_modal').show();
     });
-    function getMessage() {
+    function getAllTags() {
         $.ajax({
             type: 'GET',
-            url: '{{ route('tag.index')}}',
+            url: '{{ route('admin_tag.index')}}',
             data: '_token=<?php echo csrf_token() ?>',
-            success: function (data) {
-                console.debug(data);
+            success: function (response) {
+                var number_of_tags = response.tags.length;
+                if(number_of_tags > 0 ) {
+                    var admin_tags_list = $('#admin_tags_list');
+                    admin_tags_list.html('');
+                    for(i = 0; i < number_of_tags; i++) {
+                        var html = '<li class="w3-padding-small"><input class="w3-check post_tag" type="checkbox" value="'+ response.tags[i].id + '">';
+                        html += '<label>' + response.tags[i].name + '</label></li>';
+                        admin_tags_list.append(html);
+                }
+            }
             }
         });
+    
     }
+    
+    var btn_add_tags_to_form = $('#btn_add_tags_to_form');
+    btn_add_tags_to_form.off('click');
+    btn_add_tags_to_form.on('click', function(e) {
+        var choosed_tags = [];
+        $('.post_tag').each(function() {
+            if($(this).is(':checked')) {
+                choosed_tags.push($(this).val());
+            }
+        }
+            );
+    $('#post_tags').val(choosed_tags.toString());
+    $('#tags_modal').hide();
+    });
 </script>

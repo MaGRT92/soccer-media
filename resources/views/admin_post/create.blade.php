@@ -16,6 +16,7 @@
                 <textarea class="w3-input w3-border w3-light-grey" name="body" rows="10">{{ old('body') }}</textarea>
 
                 <input type="file" name="post_img" id="post_img" style="display: none" />
+                <input type="hidden" name="post_tags" id="post_tags" />
 
                 <button class="w3-btn w3-blue-grey w3-margin-top w3-right">Publish</button>
             </form>
@@ -37,25 +38,35 @@
                 </div>
             </div>
 
-            <button id="btn_show_tags_modal" class="w3-button w3-black">Open Modal</button>
+        </div>
+
+        <div class="w3-card-4 w3-margin-top w3-round">
+            <div class="w3-container w3-teal">
+                <h2>Tags</h2>
+            </div>
+            <div class="w3-container w3-padding-12">
+                <div class="w3-center">
+                    <button id="btn_show_tags_modal" class="w3-button w3-blue-grey">Choose Tags</button>
+                </div>
+            </div>
 
             <div id="tags_modal" class="w3-modal">
                 <div class="w3-modal-content w3-animate-right">
                     <header class="w3-container w3-teal"> 
                         <span onclick="document.getElementById('tags_modal').style.display = 'none'" 
                               class="w3-button w3-display-topright">&times;</span>
-                        <h2>Modal Header</h2>
+                        <h2>Choose Tag</h2>
                     </header>
                     <div class="w3-container">
-                        <p>Some text..</p>
-                        <p>Some text..</p>
+                        <ul id="admin_tags_list" class="w3-ul w3-padding">
+                            {!! $tags_list !!}
+                        </ul>
                     </div>
-                    <footer class="w3-container w3-teal">
-                        <p>Modal Footer</p>
+                    <footer class="w3-container w3-teal w3-padding">
+                        <input type="button" id="btn_add_tags_to_form" class="w3-btn w3-white w3-right" value="OK" />
                     </footer>
                 </div>
             </div>
-
         </div>
 
     </div>

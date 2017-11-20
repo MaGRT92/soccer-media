@@ -18,7 +18,8 @@ class AdminPostController extends Controller
 
     public function create()
     {
-        return view('admin_post.create');
+        $tags_list = Post::getTagsList();
+        return view('admin_post.create', compact('tags_list'));
     }
 
     public function store()
@@ -27,19 +28,26 @@ class AdminPostController extends Controller
             'title' => 'required',
             'body' => 'required',
         ]);
-        
+
         $post_img = '';
-        
-        if(request()->hasFile('post_img') && request()->file('post_img')->isValid()) {
+
+        if (request()->hasFile('post_img') && request()->file('post_img')->isValid())
+        {
             $post_img = request()->file('post_img')->getClientOriginalName();
         }
 
-        Post::create([
-                'title' => request('title'),
-                'body' => request('body'),
-                'post_img' => $post_img,
-                'user_id' => Auth::user()->id,
-            ]);
+        $post = Post::create([
+                    'title' => request('title'),
+                    'body' => request('body'),
+                    'post_img' => $post_img,
+                    'user_id' => Auth::user()->id,
+        ]);
+        $post_tags = explode(',', request('post_tags'));
+        
+        foreach ($post_tags as $t)
+        {
+            $post->tags()->attach($t);
+        }
 
         session()->flash('success', 'Successfully added post');
 
@@ -55,7 +63,8 @@ class AdminPostController extends Controller
     public function show(Post $post)
     {
         $post_img = 'images/no_image.png';
-        if(trim($post->post_img) !== '') {
+        if (trim($post->post_img) !== '')
+        {
             $post_img = 'uploads/' . $post->post_img;
         }
         return view('admin_post.show', compact('post', 'post_img'));
@@ -64,7 +73,8 @@ class AdminPostController extends Controller
     public function edit(Post $post)
     {
         $post_img = 'images/no_image.png';
-        if(trim($post->post_img) !== '') {
+        if (trim($post->post_img) !== '')
+        {
             $post_img = 'uploads/' . $post->post_img;
         }
         return view('admin_post.edit', compact('post', 'post_img'));
@@ -77,7 +87,8 @@ class AdminPostController extends Controller
             'body' => 'required',
         ]);
         $file = request()->file('post_img');
-        if($file !== null && $file->isValid()) {
+        if ($file !== null && $file->isValid())
+        {
             $post->post_img = $file->getClientOriginalName();
             $file->move('uploads', $file->getClientOriginalName());
         }

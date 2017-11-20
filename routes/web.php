@@ -46,6 +46,6 @@ Route::group([
     Route::patch('/post/{post}', 'AdminPostController@update')->name('admin_post.update');
     Route::delete('/post/{post}', 'AdminPostController@destroy')->name('admin_post.destroy');
     
-    Route::get('/tags', 'TagController@index')->name('tag.index');
+    Route::get('/tags', 'AdminTagController@index')->name('admin_tag.index');
 }
 );

@@ -14,4 +14,5 @@ class Tag extends Model
     {
         return 'name';
     }
+    
 }
