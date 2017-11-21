@@ -55,3 +55,5 @@
         document.documentElement.scrollTop = 0; // For IE and Firefox
     }
 </script>
+
+@yield('js')
