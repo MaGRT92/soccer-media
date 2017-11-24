@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class Post extends Model
 {
 
-    protected $fillable = ['title', 'body', 'user_id', 'post_img'];
+    protected $fillable = ['title', 'slug', 'body', 'user_id', 'post_img'];
 
     public function user()
     {
@@ -18,7 +18,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
     }
 
     public function addComment($body)
@@ -60,7 +60,8 @@ class Post extends Model
         foreach ($tags as $tag)
         {
             $checked = '';
-            if(in_array($tag->id, $choosed_tags_ids)) {
+            if (in_array($tag->id, $choosed_tags_ids))
+            {
                 $checked = 'checked="checked"';
             }
             $html .= '<li class="w3-padding-small"><input class="w3-check post_tag" type="checkbox"' . $checked . 'value="' . $tag->id . '">';
@@ -82,6 +83,18 @@ class Post extends Model
             $html .= '</div></div></div>';
         }
         return $html;
+    }
+
+    public static function getPostBySlug($friendly_slug)
+    {
+        $slug = str_replace("-", " ", $friendly_slug);
+        return Post::where("slug", "=", $slug)->firstOrFail();
+    }
+
+    public function getTagsIds()
+    {
+        $post_tags_ids = $this->tags->pluck("id")->toArray();
+        return implode(",", $post_tags_ids);
     }
 
 }

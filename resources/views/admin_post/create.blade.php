@@ -16,6 +16,9 @@
                 <label class="w3-text-teal"><b>Title</b></label>
                 <input class="w3-input w3-border w3-margin-bottom" type="text" name="title" value="{{ old('title') }}" data-parsley-required="true" data-parsley-minlength="3">
 
+                 <label class="w3-text-teal"><b>Slug</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" type="text" name="slug" value="{{ old('slug') }}" data-parsley-required="true" data-parsley-minlength="3">
+                
                 <label class="w3-text-teal"><b>Body</b></label>
                 <textarea class="w3-input w3-border" name="body" rows="10" data-parsley-required="true" data-parsley-minlength="10">{{ old('body') }}</textarea>
 

@@ -14,9 +14,8 @@
 Route::get('/', 'PostController@index');
 
 Route::get('/home', 'PostController@index')->name('home');
-Route::get('/posts/{post}', 'PostController@show')->name('post.show');
+Route::get('/posts/{friendly_slug}', 'PostController@show')->name('post.show');
 Route::get('/posts/tags/{tag}', 'PostController@indexTag')->name('post.index_tag');
-
 
 Auth::routes();
 

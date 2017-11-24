@@ -4,11 +4,11 @@
     </div>
 
     <div class="w3-container w3-padding-12 w3-margin-top">
-        <form method="POST" action="{{ route('admin_tag.store') }}">
+        <form method="POST" action="{{ route('admin_tag.store') }}" data-parsley-validate>
             {{ csrf_field() }}
             <div class="w3-row-padding">
                 <div class="w3-col m7">
-                    <input type="text" class="w3-input w3-border" name="tag_name"  />
+                    <input type="text" class="w3-input w3-border" name="tag_name" data-parsley-required="true" data-parsley-minlength="3"/>
                 </div>
                 <div class="w3-col m5">
                     <input type="submit" class="w3-btn w3-blue-grey" value="Add New Tag" style="margin-top: 2px;" />
@@ -46,6 +46,7 @@
 </div>
 
 @section('js')
+@parent
 <script>
     // post img
     function readURL(input) {

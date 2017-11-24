@@ -9,7 +9,7 @@
     <div class="w3-col s12">
         <div class="w3-card w3-round">
             <div class="w3-container w3-green">
-                <h5><a href="{{ route('post.show', [ 'post' => $post->id ]) }}">{{ $post->title }}</a></h5>
+                <h5><a href="{{ route('post.show', [ 'friendly_slug' => str_slug($post->slug) ]) }}">{{ $post->title }}</a></h5>
             </div>
             <div class="w3-container w3-padding-12">
                 {{ strip_tags(substr($post->body, 0, 130)) . '...' }}

@@ -17,11 +17,14 @@
                 <label class="w3-text-teal"><b>Title</b></label>
                 <input class="w3-input w3-border w3-margin-bottom" type="text" name="title" value="{{ $post->title }}" data-parsley-required="true" data-parsley-minlength="3">
 
+                <label class="w3-text-teal"><b>Slug</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" type="text" name="slug" value="{{ $post->slug }}" data-parsley-required="true" data-parsley-minlength="3">
+                
                 <label class="w3-text-teal"><b>Body</b></label>
                 <textarea class="w3-input w3-border" name="body" rows="10" data-parsley-required="true" data-parsley-minlength="10">{{ $post->body }}</textarea>
 
                 <input type="file" name="post_img" id="post_img" style="display: none" />
-                <input type="hidden" name="post_tags" id="post_tags" />
+                <input type="hidden" name="post_tags" id="post_tags" value="{{ $post_tags_ids }}" />
 
                 <button class="w3-btn w3-blue-grey w3-margin-top w3-right">Save Changes</button>
             </form>

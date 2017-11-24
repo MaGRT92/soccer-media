@@ -14,7 +14,8 @@ class PostController extends Controller
         return view('post.index', compact('posts'));
     }
     
-    public function show(Post $post) {
+    public function show($friendly_slug) {
+        $post = Post::getPostBySlug($friendly_slug);
         return view('post.show', compact('post'));
     }
     
@@ -22,5 +23,5 @@ class PostController extends Controller
         $posts = $tag->posts()->latest()->paginate(2);
         return view('post.index', compact('posts'));
     }
-    
+ 
 }

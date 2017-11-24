@@ -26,6 +26,7 @@ class AdminPostController extends Controller
     {
         $this->validate(request(), [
             'title' => 'required',
+            'slug' => 'required|unique:posts,slug',
             'body' => 'required',
         ]);
 
@@ -39,6 +40,7 @@ class AdminPostController extends Controller
         $post = Post::create([
                     'title' => request('title'),
                     'body' => request('body'),
+                    'slug' => request('slug'),
                     'post_img' => $post_img,
                     'user_id' => Auth::user()->id,
         ]);
@@ -71,19 +73,26 @@ class AdminPostController extends Controller
     {
         $tags_list = Post::getTagsList($post->tags()->pluck('id')->toArray());
         $choosed_tags_list = $post->getChoosedTags();
+        $post_tags_ids = $post->getTagsIds();
 
         $post_img = 'images/no_image.png';
         if (trim($post->post_img) !== '')
         {
             $post_img = 'uploads/' . $post->post_img;
         }
-        return view('admin_post.edit', compact('post', 'post_img', 'choosed_tags_list', 'tags_list'));
+        return view('admin_post.edit', compact('post', 'post_img', 'choosed_tags_list', 'tags_list', 'post_tags_ids'));
     }
 
     public function update(Post $post)
     {
+        $slug_validation_rules = '';
+        if($post->slug !== request('slug')) {
+            $slug_validation_rules = 'required|unique:posts,slug';
+        }
+        
         $this->validate(request(), [
             'title' => 'required',
+            'slug' => $slug_validation_rules,
             'body' => 'required',
         ]);
         $file = request()->file('post_img');
@@ -99,6 +108,7 @@ class AdminPostController extends Controller
             $post_tags_ids = explode(',', request('post_tags'));
         }
         $post->title = request('title');
+        $post->slug = request('slug');
         $post->body = request('body');
         $post->update();
         if (is_array($post_tags_ids))
