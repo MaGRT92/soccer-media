@@ -8,43 +8,47 @@
 <img src="{{ asset('uploads') . '/' . $post->post_img}}" width="100%" />
 @endif
 
-<p>{{ $post->body }}</p>
+<div id="post_body">
+    <p>{{ $post->body }}</p>
+</div>
 
-<div class="w3-padding">
+
+<div id="post_tags_panel">
     @foreach($post->tags as $tag)
-    <div class="w3-tag w3-round w3-green" style="padding:3px">
-        <div class="w3-tag w3-round w3-green w3-border w3-border-white">
-            <a href="{{ route('post.index_tag', ['tag' => $tag->name] ) }}" class="tag_link">{{ $tag->name }}</a>
-        </div>  
-    </div>
+    <a href="{{ route('post.index_tag', ['tag' => $tag->name] ) }}" class="tag_link label label-success larger_text">{{ $tag->name }}</a>
     @endforeach
 </div>
 
-<a href="{{ route('home') }}" class="w3-btn w3-green w3-margin-top"><i class="fa fa-long-arrow-left"></i> Back to Posts List</a>
+<a href="{{ route('home') }}" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i> Back to Posts List</a>
 
-<div class="w3-margin-top">
+<div id="post_comments_panel">
     <h3>Latest Comments</h3>
-    <ul class="w3-ul">
-        @foreach($post->comments as $comment)
-        <li class="w3-panel w3-border w3-round">
-            <div class="w3-right w3-tiny w3-padding">{{ $comment->created_at->diffForHumans() . ' by ' . $comment->user->name }}</div>
-            <div>{{ $comment->body }}</div>
-        </li>
-        @endforeach
-    </ul>
+    <hr>
+    @foreach($post->comments as $comment)
+    <div class="list-group comment_panel">
+        <h4 class="list-group-item-heading">{{ $comment->body }}</h4>
+        <p class="list-group-item-text">{{ $comment->created_at->diffForHumans() . ' by ' . $comment->user->name }}</p>
+    </div>
+    @endforeach
+
 </div>
 
-<div class="w3-margin-top">
+<div id="post_add_comment_panel">
     @guest
-    <div class="w3-red w3-padding">
+    <div class="alert alert-danger">
         <h6>You must be logged in to add comments!</h6>
     </div>
     @else
+    <hr>
     <h3>Add Comment</h3>
     <form method="POST" action="{{ route('comments.store', ['post' => $post->id] ) }}">
         {{ csrf_field() }}
-        <textarea placeholder="Comment" class="w3-input w3-border w3-margin-bottom" name="body"></textarea>
-        <input type="submit" value="Add Comment" class="w3-btn w3-blue w3-right" />
+        <div class="form-group">
+            <textarea placeholder="Comment" class="form-control" name="body"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add Comment" class="btn btn-primary pull-right" />
+        </div>
     </form>
     @endguest
 </div>

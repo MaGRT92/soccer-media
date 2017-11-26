@@ -1,38 +1,25 @@
-<div class="w3-green w3-padding-12 w3-center w3-margin-top">
-    &copy; 2017 MaGRT
-</div>
+<hr>
+
+<footer>
+    <p>&copy; 2016 Company, Inc.</p>
+</footer>
 
 
-<button onclick="topFunction()" id="myBtn" class="w3-green" title="Go to top">Top</button> 
+<button onclick="topFunction()" id="myBtn" class="" title="Go to top">Top</button> 
 
-<script>
-    function myFunction() {
-        var x = document.getElementById("demo");
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="{{ asset('js/ie10-viewport-bug-workaround.js') }}"></script>
+<script src="{{ asset('js/holder.min.js') }}"></script>
 
 <script>
-    var myIndex = 0;
-    carousel();
-
-    function carousel() {
-        var i;
-        var x = document.getElementsByClassName("mySlides");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        myIndex++;
-        if (myIndex > x.length) {
-            myIndex = 1
-        }
-        x[myIndex - 1].style.display = "block";
-        setTimeout(carousel, 2000); // Change image every 2 seconds
-    }
+            $(document).ready(function () {
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('.row-offcanvas').toggleClass('active');
+        });
+    });
 </script>
 
 <script>

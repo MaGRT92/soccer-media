@@ -4,24 +4,27 @@
     @include('partials.head')
 
     <body>
-        <div class="w3-content">
 
+        <div class="container">
             @include('partials.nav')
-
+            
             @include('partials.header')
 
-            <div id="all-content" class="w3-container">
-                <div class="w3-row">
-                    <div class="w3-col m9 w3-padding-right">
-                        <div id="master_title" class="w3-container">
-                            <h1 class="w3-border-bottom w3-border-green">@yield('main_title')</h1>
+            <div id="all-content">
+                <div class="row row-offcanvas row-offcanvas-right">
+                    <div class="col-xs-12 col-sm-9">
+                        <p class="pull-right visible-xs">
+                            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+                        </p>
+                        <div id="master_title" class="">
+                            <h1 class="well">@yield('main_title')</h1>
                         </div>
 
                         @yield('content')
 
                     </div>
 
-                    <div class="w3-col m3">
+                    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
                         @include('partials.sidebar')
                     </div>
                 </div>

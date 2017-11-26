@@ -1,9 +1,103 @@
-#all-content {
-    margin-top: 20px;
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+    height: 400px;
+    margin-bottom: 20px;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+    z-index: 10;
 }
 
-.w3-button:hover {
-    background-color: #4CAF50 !important;
+/* Declare heights because of positioning of img element */
+.carousel .item {
+    height: 400px;
+    background-color: #777;
+}
+.carousel-inner > .item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 400px;
+}
+
+/*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+html,
+body {
+    overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+body {
+    
+}
+footer {
+    padding: 30px 0;
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 767px) {
+    .row-offcanvas {
+        position: relative;
+        -webkit-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+    }
+
+    .row-offcanvas-right {
+        right: 0;
+    }
+
+    .row-offcanvas-left {
+        left: 0;
+    }
+
+    .row-offcanvas-right
+    .sidebar-offcanvas {
+        right: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left
+    .sidebar-offcanvas {
+        left: -50%; /* 6 columns */
+    }
+
+    .row-offcanvas-right.active {
+        right: 50%; /* 6 columns */
+    }
+
+    .row-offcanvas-left.active {
+        left: 50%; /* 6 columns */
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 50%; /* 6 columns */
+    }
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-default .navbar-collapse {
+    background-color: #FFFFFF;
+}
+
+#all-content {
+    margin-top: 10px;
+}
+
+.larger_text {
+    font-size: 120%;
 }
 
 #archive_list {
@@ -32,3 +126,25 @@
 .tag_link {
     text-decoration: none;
 }
+
+/* post.index */
+
+.post_index_title {
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+}
+
+/* post.show */
+
+#post_body, #post_comments_panel {
+    margin: 20px 0;
+}
+
+#post_tags_panel {
+    margin-bottom: 20px;
+}
+
+.comment_panel {
+    margin: 10px 0;
+}
+

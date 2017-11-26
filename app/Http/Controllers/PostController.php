@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::latest()->filter(request(['month', 'year']))->paginate(2);
+        $posts = Post::latest()->filter(request(['month', 'year']))->paginate(12);
         return view('post.index', compact('posts'));
     }
     
