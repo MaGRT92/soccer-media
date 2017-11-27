@@ -37,6 +37,7 @@ Route::group([
 {
     Route::get('/dashboard', 'AdminController@index')->name('admin.index');
 
+    // posts
     Route::get('/post', 'AdminPostController@index')->name('admin_post.index');
     Route::get('/post/create', 'AdminPostController@create')->name('admin_post.create');
     Route::get('/post/{post}', 'AdminPostController@show')->name('admin_post.show');
@@ -45,7 +46,10 @@ Route::group([
     Route::patch('/post/{post}', 'AdminPostController@update')->name('admin_post.update');
     Route::delete('/post/{post}', 'AdminPostController@destroy')->name('admin_post.destroy');
     
+    // tags
     Route::get('/tags', 'AdminTagController@index')->name('admin_tag.index');
     Route::post('/tags', 'AdminTagController@store')->name('admin_tag.store');
+    Route::patch('/tags', 'AdminTagController@update')->name('admin_tag.update');
+    Route::delete('/tags/{id}', 'AdminTagController@destroy')->name('admin_tag.destroy');
 }
 );

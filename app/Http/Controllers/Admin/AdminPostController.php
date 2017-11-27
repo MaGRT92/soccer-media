@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Post;
-use Illuminate\Http\Request;
+use App\Tag;
 use Illuminate\Support\Facades\Auth;
 
 class AdminPostController extends Controller
@@ -18,8 +18,9 @@ class AdminPostController extends Controller
 
     public function create()
     {
-        $tags_list = Post::getTagsList();
-        return view('admin_post.create', compact('tags_list'));
+        $tags = Tag::all();
+        $post_img = 'images/no_image.png';
+        return view('admin_post.create', compact('tags', 'post_img'));
     }
 
     public function store()
@@ -44,9 +45,12 @@ class AdminPostController extends Controller
                     'post_img' => $post_img,
                     'user_id' => Auth::user()->id,
         ]);
-        $post_tags_ids = explode(',', request('post_tags'));
 
-        $post->tags()->attach($post_tags_ids);
+
+        if (null !== request('tags'))
+        {
+            $post->tags()->sync(request('tags'), false);
+        }
 
         session()->flash('success', 'Successfully added post');
 
@@ -71,25 +75,24 @@ class AdminPostController extends Controller
 
     public function edit(Post $post)
     {
-        $tags_list = Post::getTagsList($post->tags()->pluck('id')->toArray());
-        $choosed_tags_list = $post->getChoosedTags();
-        $post_tags_ids = $post->getTagsIds();
+        $tags = Tag::all();
 
         $post_img = 'images/no_image.png';
         if (trim($post->post_img) !== '')
         {
             $post_img = 'uploads/' . $post->post_img;
         }
-        return view('admin_post.edit', compact('post', 'post_img', 'choosed_tags_list', 'tags_list', 'post_tags_ids'));
+        return view('admin_post.edit', compact('post', 'post_img', 'tags'));
     }
 
     public function update(Post $post)
     {
         $slug_validation_rules = '';
-        if($post->slug !== request('slug')) {
+        if ($post->slug !== request('slug'))
+        {
             $slug_validation_rules = 'required|unique:posts,slug';
         }
-        
+
         $this->validate(request(), [
             'title' => 'required',
             'slug' => $slug_validation_rules,
@@ -101,22 +104,18 @@ class AdminPostController extends Controller
             $post->post_img = $file->getClientOriginalName();
             $file->move('uploads', $file->getClientOriginalName());
         }
-        $post_tags_ids = null;
-        
-        if (request('post_tags') !== null)
-        {
-            $post_tags_ids = explode(',', request('post_tags'));
-        }
+
         $post->title = request('title');
         $post->slug = request('slug');
         $post->body = request('body');
         $post->update();
-        if (is_array($post_tags_ids))
+         
+        if (null !== request('tags'))
         {
-            $post->tags()->sync($post_tags_ids);
+            $post->tags()->sync(request('tags'));
         } else
         {
-            $post->tags()->detach();
+            $post->tags()->sync(array());
         }
         session()->flash('success', 'Successfully edited post');
 
@@ -125,6 +124,7 @@ class AdminPostController extends Controller
 
     public function destroy(Post $post)
     {
+        $post->tags()->detach();
         $post->delete();
         session()->flash('success', 'Successfully deleted post ' . $post->title);
 
