@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminPostController extends Controller
 {
@@ -28,21 +29,25 @@ class AdminPostController extends Controller
         $this->validate(request(), [
             'title' => 'required',
             'slug' => 'required|unique:posts,slug',
+            'post_img' => 'sometimes|image',
             'body' => 'required',
         ]);
 
-        $post_img = '';
+        $filename = '';
 
-        if (request()->hasFile('post_img') && request()->file('post_img')->isValid())
+         if (request()->hasFile('post_img'))
         {
-            $post_img = request()->file('post_img')->getClientOriginalName();
+            $image = request()->file('post_img');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('uploads/');
+            $image->move($location, $filename);
         }
 
         $post = Post::create([
                     'title' => request('title'),
                     'body' => request('body'),
                     'slug' => request('slug'),
-                    'post_img' => $post_img,
+                    'post_img' => $filename,
                     'user_id' => Auth::user()->id,
         ]);
 
@@ -53,12 +58,6 @@ class AdminPostController extends Controller
         }
 
         session()->flash('success', 'Successfully added post');
-
-
-        if ($post_img !== '')
-        {
-            request()->file('post_img')->move('uploads', $post_img);
-        }
 
         return redirect()->route('admin_post.index');
     }
@@ -96,18 +95,25 @@ class AdminPostController extends Controller
         $this->validate(request(), [
             'title' => 'required',
             'slug' => $slug_validation_rules,
+            'post_img' => 'sometimes|image',
             'body' => 'required',
         ]);
-        $file = request()->file('post_img');
-        if ($file !== null && $file->isValid())
-        {
-            $post->post_img = $file->getClientOriginalName();
-            $file->move('uploads', $file->getClientOriginalName());
-        }
-
+        
         $post->title = request('title');
         $post->slug = request('slug');
         $post->body = request('body');
+        
+        if (request()->hasFile('post_img'))
+        {
+            $image = request()->file('post_img');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('uploads/');
+            $image->move($location, $filename);
+            $old_filename = $post->post_img;
+            $post->post_img = $filename;
+            Storage::delete($old_filename);
+        }
+        
         $post->update();
          
         if (null !== request('tags'))
@@ -126,6 +132,7 @@ class AdminPostController extends Controller
     {
         $post->tags()->detach();
         $post->delete();
+        Storage::delete($post->post_img);
         session()->flash('success', 'Successfully deleted post ' . $post->title);
 
         return redirect()->route('admin_post.index');
